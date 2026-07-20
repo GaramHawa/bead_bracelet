@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StrandCraft — Artisanal Bead Bracelet Designer</title>
+  <meta name="description"
+    content="StrandCraft — Create your unique handcrafted bead bracelet with our interactive customizer.">
+  <link rel="shortcut icon" href="logo.jpg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --burgundy: #45000E;
+      --burgundy-dark: #2D0009;
+      --burgundy-light: #5E0D1B;
+      --red: #AF0004;
+      --red-dark: #820003;
+      --cream: #FEF0C6;
+      --cream-alt: #FFF8E8;
+      --beige: #D0906C;
+      --beige-dark: #B57552;
+      --beige-light: rgba(208, 144, 108, 0.2);
+      --text-dark: #3A0812;
+      --text-muted: #704048;
+      --white: #ffffff;
+      --shadow-sm: 0 4px 14px rgba(69, 0, 14, 0.08);
+      --shadow-md: 0 8px 24px rgba(69, 0, 14, 0.15);
+      --shadow-lg: 0 14px 36px rgba(69, 0, 14, 0.25);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ═══ HEADER & NAV ═══ */
+    header {
+      background: var(--burgundy);
+      color: var(--cream);
+      padding: 18px 32px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      z-index: 100;
+      border-bottom: 2px solid var(--beige);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .brand-logo-img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--beige);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), 0 0 0 3px var(--beige-light);
+      background: var(--white);
+      transition: transform 0.3s ease;
+    }
+
+    .brand-wrap:hover .brand-logo-img {
+      transform: scale(1.06) rotate(3deg);
+    }
+
+    .brand-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--cream);
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+
+    .brand-text h1 span {
+      color: var(--beige);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .brand-text p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.68rem;
+      color: var(--beige);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-top: 3px;
+      font-weight: 300;
+    }
+
+    nav ul {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    nav a {
+      color: var(--cream);
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      transition: color 0.25s ease;
+      padding: 4px 0;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--beige);
+      transition: width 0.25s ease;
+    }
+
+    nav a:hover {
+      color: var(--beige);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ═══ HERO & SIZE SCREEN ═══ */
+    #size-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 20px;
+      background: radial-gradient(circle at 50% 30%, #FFFDF5 0%, var(--cream) 70%);
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--beige-light);
+      color: var(--burgundy);
+      border: 1px solid var(--beige);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    #size-screen h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.3rem;
+      font-weight: 700;
+      color: var(--burgundy);
+      text-align: center;
+      margin-bottom: 10px;
+      letter-spacing: 0.02em;
+    }
+
+    #size-screen p.subtitle {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 540px;
+      margin-bottom: 44px;
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    .size-cards {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 900px;
+    }
+
+    .size-card {
+      background: var(--cream-alt);
+      border: 2px solid var(--beige);
+      border-radius: 16px;
+      padding: 36px 30px;
+      width: 210px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .size-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--beige);
+      transition: background 0.3s ease;
+    }
+
+    .size-card:hover {
+      border-color: var(--red);
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg), 0 0 0 3px var(--beige-light);
+    }
+
+    .size-card:hover::before {
+      background: var(--red);
+    }
+
+    .size-card .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      min-height: 36px;
+    }
+
+    .mini-bead {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+      background: radial-gradient(circle at 35% 35%, #E5AA84, var(--beige));
+      box-shadow: 0 2px 4px rgba(69, 0, 14, 0.2);
+    }
+
+    .mini-bead.alt {
+      background: radial-gradient(circle at 35% 35%, #D44347, var(--red));
+    }
+
+    .mini-bead.alt2 {
+      background: radial-gradient(circle at 35% 35%, #751424, var(--burgundy));
+    }
+
+    .size-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.06em;
+      color: var(--burgundy);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .size-card .count {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      color: var(--red);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .size-card .sub {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    .size-card .cta-label {
+      margin-top: 18px;
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--burgundy);
+      color: var(--cream);
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      transition: all 0.25s ease;
+    }
+
+    .size-card:hover .cta-label {
+      background: var(--red);
+      color: var(--cream);
+    }
+
+    /* ═══ CUSTOMIZER VIEW ═══ */
+    #customizer {
+      display: none;
+      flex: 1;
+      animation: fadeIn 0.4s ease;
+    }
+
+    #customizer.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 28px;
+      background: var(--burgundy);
+      color: var(--cream);
+      border-bottom: 2px solid var(--beige);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .toolbar-info {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      color: var(--cream);
+    }
+
+    .toolbar-info strong {
+      color: var(--beige);
+      font-weight: 600;
+    }
+
+    .toolbar-btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* ═══ BUTTON SYSTEM ═══ */
+    .btn {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 9px 20px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      box-shadow: var(--shadow-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: var(--cream);
+    }
+
+    .btn-primary:hover {
+      background: var(--red-dark);
+      box-shadow: 0 4px 15px rgba(175, 0, 4, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--beige);
+      color: var(--burgundy);
+    }
+
+    .btn-secondary:hover {
+      background: var(--beige-dark);
+      color: var(--cream);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--beige);
+      color: var(--cream);
+    }
+
+    .btn-outline:hover {
+      background: var(--beige);
+      color: var(--burgundy);
+    }
+
+    .body-wrap {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* ═══ BEAD CATALOGUE (LEFT) ═══ */
+    .catalogue {
+      width: 220px;
+      min-width: 195px;
+      background: var(--cream-alt);
+      border-right: 2px solid var(--beige);
+      padding: 18px 12px;
+      overflow-y: auto;
+      max-height: calc(100vh - 200px);
+    }
+
+    .catalogue h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--burgundy);
+      margin-bottom: 14px;
+      padding-left: 4px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--beige-light);
+      padding-bottom: 6px;
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .bead-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      cursor: grab;
+      padding: 8px 4px;
+      border-radius: 12px;
+      background: var(--cream);
+      transition: all 0.25s ease;
+      user-select: none;
+      -webkit-user-select: none;
+      border: 1.5px solid var(--beige);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .bead-item:hover {
+      background: var(--white);
+      border-color: var(--red);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(175, 0, 4, 0.15);
+    }
+
+    .bead-item:active {
+      cursor: grabbing;
+    }
+
+    .bead-item img {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      pointer-events: none;
+      filter: drop-shadow(0 3px 6px rgba(69, 0, 14, 0.18));
+      transition: transform 0.2s ease;
+    }
+
+    .bead-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .bead-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.62rem;
+      color: var(--text-dark);
+      text-align: center;
+      line-height: 1.2;
+      font-weight: 500;
+    }
+
+    .bead-id {
+      font-family: monospace;
+      font-size: 0.6rem;
+      background: var(--burgundy);
+      color: var(--cream);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* ═══ BRACELET CANVAS ═══ */
+    .bracelet-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+      gap: 20px;
+      overflow: auto;
+      background: radial-gradient(circle at 50% 50%, #FFFDF7 0%, var(--cream) 100%);
+    }
+
+    .hint {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-align: center;
+      background: var(--cream-alt);
+      padding: 6px 18px;
+      border-radius: 50px;
+      border: 1px solid var(--beige);
+    }
+
+    #bracelet-ring {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .drop-zone {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px dashed var(--beige);
+      background: rgba(255, 255, 255, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      overflow: hidden;
+    }
+
+    .drop-zone:hover {
+      border-color: var(--red);
+      border-style: solid;
+    }
+
+    .drop-zone.drag-over {
+      border-color: var(--red);
+      border-style: solid;
+      background: rgba(208, 144, 108, 0.2);
+      box-shadow: 0 0 0 4px var(--beige-light);
+    }
+
+    .drop-zone.filled {
+      border: 3px solid var(--red);
+      background: transparent;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(175, 0, 4, 0.2);
+    }
+
+    .drop-zone img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      pointer-events: none;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .slot-num {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.65rem;
+      color: var(--beige-dark);
+      font-weight: 600;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 22px;
+      height: 22px;
+      background: var(--red);
+      color: var(--cream);
+      border: 2px solid var(--white);
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: bold;
+      line-height: 1;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .remove-btn:hover {
+      background: var(--red-dark);
+      transform: scale(1.15);
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+
+      70% {
+        transform: scale(1.08);
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .drop-zone.popped {
+      animation: popIn 0.35s ease forwards;
+    }
+
+    /* ═══ CODE OUTPUT PANEL ═══ */
+    .code-panel {
+      background: var(--burgundy);
+      border-top: 2px solid var(--beige);
+      padding: 16px 28px;
+      color: var(--cream);
+    }
+
+    .code-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--beige);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .code-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    #code-string {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      background: var(--cream);
+      border: 2px solid var(--beige);
+      border-radius: 10px;
+      padding: 10px 16px;
+      flex: 1;
+      min-width: 220px;
+      color: var(--burgundy);
+      word-break: break-all;
+      letter-spacing: 0.03em;
+      font-weight: 600;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    @keyframes flash {
+
+      0%,
+      100% {
+        background: var(--cream);
+      }
+
+      50% {
+        background: #FFE4A0;
+      }
+    }
+
+    .flash {
+      animation: flash 0.45s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ═══ FOOTER ═══ */
+    footer {
+      background: var(--burgundy);
+      border-top: 2px solid var(--beige);
+      padding: 22px 28px;
+      text-align: center;
+      color: var(--cream);
+    }
+
+    footer p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.78rem;
+      color: var(--cream);
+      letter-spacing: 0.05em;
+    }
+
+    footer a {
+      color: var(--beige);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--cream);
+      text-decoration: underline;
+    }
+
+    /* ═══ TOAST NOTIFICATION ═══ */
+    #toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--red);
+      color: var(--cream);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 26px;
+      border-radius: 50px;
+      border: 1.5px solid var(--beige);
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 14px 20px;
+      }
+
+      .header-container {
+        justify-content: center;
+        text-align: center;
+      }
+
+      nav ul {
+        gap: 16px;
+        margin-top: 4px;
+      }
+
+      .catalogue {
+        width: 155px;
+        min-width: 140px;
+      }
+
+      .cat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-container" style="justify-content: center; text-align: center;">
+      <a href="#" class="brand-wrap">
+        <img src="logo.jpg" alt="StrandCraft Logo" class="brand-logo-img">
+        <div class="brand-text">
+          <h1>Strand<span>Craft</span></h1>
+          <p>Artisanal Bead Bracelet Studio</p>
+        </div>
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO & SIZE SELECTION -->
+  <div id="size-screen">
+    <div class="hero-badge">Handcrafted Luxury</div>
+    <h2>Craft Your Custom Strand</h2>
+    <p class="subtitle">Select your bracelet size to begin designing your unique strand, bead by artisanal bead.</p>
+
+    <div class="size-cards">
+      <div class="size-card" onclick="startCustomizer('small')">
+        <div class="icon">
+          <span class="mini-bead"></span>
+          <span class="mini-bead alt"></span>
+        </div>
+        <h3>Small</h3>
+        <div class="count">12 Beads</div>
+        <div class="sub">~14–15 cm wrist</div>
+        <span class="cta-label">Start Crafting →</span>
+      </div>
+
+      <div class="size-card" onclick="startCustomizer('medium')">
+        <div class="icon">
+          <span class="mini-bead"></span>
+          <span class="mini-bead alt"></span>
+          <span class="mini-bead alt2"></span>
+        </div>
+        <h3>Medium</h3>
+        <div class="count">18 Beads</div>
+        <div class="sub">~16–17 cm wrist</div>
+        <span class="cta-label">Start Crafting →</span>
+      </div>
+
+      <div class="size-card" onclick="startCustomizer('large')">
+        <div class="icon">
+          <span class="mini-bead alt2"></span>
+          <span class="mini-bead"></span>
+          <span class="mini-bead alt"></span>
+          <span class="mini-bead alt2"></span>
+        </div>
+        <h3>Large</h3>
+        <div class="count">24 Beads</div>
+        <div class="sub">~18–19 cm wrist</div>
+        <span class="cta-label">Start Crafting →</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMIZER VIEW -->
+  <div id="customizer">
+    <div class="toolbar">
+      <div class="toolbar-info">
+        Size: <strong id="tb-size">—</strong> &nbsp;·&nbsp;
+        Beads placed: <strong id="tb-placed">0</strong> / <strong id="tb-total">0</strong>
+      </div>
+      <div class="toolbar-btns">
+        <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+        <button class="btn btn-outline" onclick="goBack()">← Resize</button>
+        <button class="btn btn-primary" onclick="copyCode()">Save My Strand</button>
+      </div>
+    </div>
+
+    <div class="body-wrap">
+      <div class="catalogue">
+        <h4>Bead Catalogue</h4>
+        <div class="cat-grid" id="catalogue"></div>
+      </div>
+      <div class="bracelet-area">
+        <div class="hint">Drag a bead into any slot &nbsp;·&nbsp; Hover a slot to remove</div>
+        <div id="bracelet-ring"></div>
+      </div>
+    </div>
+
+    <div class="code-panel">
+      <div class="code-label">Strand Sequence Order Code</div>
+      <div class="code-row">
+        <div id="code-string">—</div>
+        <button class="btn btn-primary" onclick="copyCode()">Copy Code</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 <a href="#">StrandCraft</a> Artisanal Jewelry. All rights reserved.</p>
+  </footer>
+
+  <div id="toast"><span class="tick">✓</span> Order Code Copied to Clipboard!</div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
